@@ -19,17 +19,17 @@ func main() {
 	//Читаем файл
 	var data, err = ioutil.ReadFile("./resources/tokens.json")
 	if err != nil {
-		log.Panic(err)
+		log.Panic("FileNotFoundException")
 	}
 	var d Data
 	err = json.Unmarshal(data, &d)
 	if err != nil {
-		log.Panic(err)
+		log.Panic("IOException")
 	}
 	//создаем сущность бота
 	bot, err := tgbotapi.NewBotAPI(d.Key1)
 	if err != nil {
-		log.Panic(err)
+		log.Panic("BotInitError")
 	}
 	bot.Debug = true
 

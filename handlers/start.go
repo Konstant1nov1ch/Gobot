@@ -26,7 +26,7 @@ func Start(update tgbotapi.Update, bot *tgbotapi.BotAPI) {
 
 	row3 := tgbotapi.NewInlineKeyboardRow(
 		tgbotapi.NewInlineKeyboardButtonData("Решить квадратное уравнение?", "Solve a quadratic equation? (Answer in Russian)"),
-		tgbotapi.NewInlineKeyboardButtonData("Интеграл?", "Can you write about newton integral? (Answer in Russian)"),
+		tgbotapi.NewInlineKeyboardButtonData("Интеграл?", "Can you write about integral? (Answer in Russian)"),
 	)
 
 	row4 := tgbotapi.NewInlineKeyboardRow(
