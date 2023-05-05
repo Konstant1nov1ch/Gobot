@@ -5,11 +5,11 @@ import (
 	"algoru/handlers"
 	"encoding/json"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
-	"io/ioutil"
 	"log"
+	"os"
 )
 
-// Структура json файла с токенами (в гитигноре)
+// Data Структура json файла с токенами (в гитигноре)
 type Data struct {
 	Key1 string `json:"keyTg"`
 	Key2 string `json:"keyAi"`
@@ -17,7 +17,7 @@ type Data struct {
 
 func main() {
 	//Читаем файл
-	var data, err = ioutil.ReadFile("./resources/tokens.json")
+	var data, err = os.ReadFile("./resources/tokens.json")
 	if err != nil {
 		log.Panic("FileNotFoundException")
 	}
