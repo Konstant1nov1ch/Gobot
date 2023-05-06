@@ -17,7 +17,7 @@ type Data struct {
 
 func main() {
 	//Читаем файл
-	var data, err = os.ReadFile("./resources/tokens.json")
+	var data, err = os.ReadFile("internal/resources/tokens.json")
 	if err != nil {
 		log.Panic("FileNotFoundException")
 	}
