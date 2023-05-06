@@ -1,7 +1,7 @@
-package handlers
+package adapters
 
 import (
-	"algoru/controller"
+	"algoru/internal/controller"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"log"
 	"strings"
@@ -9,7 +9,7 @@ import (
 
 func MainHandler(update tgbotapi.Update, bot *tgbotapi.BotAPI, apiKey string) {
 	// Получаем ответ от openAi
-	response, err := controller.Ask(strings.TrimSpace(update.Message.Text), apiKey)
+	response, err := controller.GetAnswerFromOpenAI(strings.TrimSpace(update.Message.Text), apiKey)
 	if err != "" {
 		log.Printf("Error generating text - %v", err)
 		return

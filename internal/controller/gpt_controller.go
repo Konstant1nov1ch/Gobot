@@ -6,7 +6,7 @@ import (
 	"github.com/sashabaranov/go-openai"
 )
 
-func Ask(userText string, token string) (string, string) {
+func GetAnswerFromOpenAI(userText string, token string) (string, string) {
 	client := openai.NewClient(token)
 	resp, err3 := client.CreateCompletion(
 		context.Background(),

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"algoru/controller"
-	"algoru/handlers"
+	handlers2 "algoru/internal/adapters"
+	"algoru/internal/controller"
 	"encoding/json"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"log"
@@ -46,9 +46,9 @@ func main() {
 		if update.Message != nil && update.Message.IsCommand() {
 			switch update.Message.Command() {
 			case "start":
-				handlers.Start(update, bot)
+				handlers2.Start(update, bot)
 			case "feedback":
-				handlers.Feedback(update, bot)
+				handlers2.Feedback(update, bot)
 			default:
 				continue
 			}
@@ -58,7 +58,7 @@ func main() {
 		if update.CallbackQuery != nil {
 			// Обработка нажатия кнопки
 			buttonText := update.CallbackQuery.Data
-			resp, err1 := controller.Ask(buttonText, d.Key2)
+			resp, err1 := controller.GetAnswerFromOpenAI(buttonText, d.Key2)
 			if err1 != "" {
 				resp = "Что-то пошло не так, попробуйте позже... ."
 			}
@@ -69,7 +69,7 @@ func main() {
 				return
 			}
 		} else {
-			handlers.MainHandler(update, bot, d.Key2)
+			handlers2.MainHandler(update, bot, d.Key2)
 		}
 	}
 }
