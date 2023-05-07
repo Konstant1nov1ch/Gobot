@@ -8,19 +8,21 @@ import (
 
 func GetAnswerFromOpenAI(userText string, token string) (string, string) {
 	client := openai.NewClient(token)
-	resp, err3 := client.CreateCompletion(
+	resp, err := client.CreateChatCompletion(
 		context.Background(),
-		openai.CompletionRequest{
-			Model:       openai.GPT3TextDavinci003,
-			Prompt:      userText,
-			MaxTokens:   1024,
-			Temperature: 0.6,
+		openai.ChatCompletionRequest{
+			Model: openai.GPT3Dot5Turbo0301,
+			Messages: []openai.ChatCompletionMessage{
+				{
+					Role:    openai.ChatMessageRoleUser,
+					Content: userText,
+				},
+			},
 		},
 	)
-	if err3 != nil {
-		fmt.Printf("Completion error: %v\n", err3)
+	if err != nil {
+		fmt.Printf("ChatCompletion error: %v\n", err)
 		return "Что-то пошло не так, попробуйте позже... .", ""
 	}
-
-	return resp.Choices[0].Text, ""
+	return resp.Choices[0].Message.Content, ""
 }
