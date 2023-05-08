@@ -46,9 +46,11 @@ func main() {
 		if update.Message != nil && update.Message.IsCommand() {
 			switch update.Message.Command() {
 			case "start":
-				handlers2.Start(update, bot)
+				// запускаем обработку сообщения в новой горутине
+				go handlers2.Start(update, bot)
 			case "feedback":
-				handlers2.Feedback(update, bot)
+				// запускаем обработку сообщения в новой горутине
+				go handlers2.Feedback(update, bot)
 			default:
 				continue
 			}
@@ -58,18 +60,21 @@ func main() {
 		if update.CallbackQuery != nil {
 			// Обработка нажатия кнопки
 			buttonText := update.CallbackQuery.Data
-			resp, err1 := controller.GetAnswerFromOpenAI(buttonText, d.Key2)
-			if err1 != "" {
-				resp = "Что-то пошло не так, попробуйте позже... ."
-			}
-			msg := tgbotapi.NewMessage(update.CallbackQuery.Message.Chat.ID, resp)
-			_, err := bot.Send(msg)
-			if err != nil {
-				log.Printf("Error sending message to chat - %v", err)
-				return
-			}
+			go func() {
+				resp, err1 := controller.GetAnswerFromOpenAI(buttonText, d.Key2)
+				if err1 != "" {
+					resp = "Что-то пошло не так, попробуйте позже... ."
+				}
+				msg := tgbotapi.NewMessage(update.CallbackQuery.Message.Chat.ID, resp)
+				_, err := bot.Send(msg)
+				if err != nil {
+					log.Printf("Error sending message to chat - %v", err)
+					return
+				}
+			}()
 		} else {
-			handlers2.MainHandler(update, bot, d.Key2)
+			// запускаем обработку сообщения в новой горутине
+			go handlers2.MainHandler(update, bot, d.Key2)
 		}
 	}
 }
