@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func MainHandler(update tgbotapi.Update, bot *tgbotapi.BotAPI, apiKey string) {
+func Message(update tgbotapi.Update, bot *tgbotapi.BotAPI, apiKey string) {
 	// Получаем ответ от openAi
 	response, err := controller.GetAnswerFromOpenAI(strings.TrimSpace(update.Message.Text), apiKey)
 	if err != "" {
